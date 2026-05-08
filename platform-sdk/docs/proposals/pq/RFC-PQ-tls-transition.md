@@ -25,7 +25,8 @@ Event and state signing are explicitly out of scope.
 
 Current gossip TLS relies on RSA-3072, EC-384, x25519, which are not quantum resistant.
 
-This proposal upgrades gossip transport authentication and key exchange to post-quantum primitives while preserving TLS 1.3 and existing trust semantics.
+This proposal upgrades gossip transport to TLS 1.3 and its authentication and key exchange phases to post-quantum primitives, 
+while minimizes impact on existing trust semantics.
 
 This proposal focuses first on transport authentication and key establishment because those changes can be deployed independently from consensus-signature migration.
 
@@ -197,9 +198,10 @@ Proto compatibility allows phased rollout.
 
 ## Phase 1 — New TLS stack, classical authentication
 
+- Add ACCP (optional, also can be its own independent phase)
 - Move to BCJSSE
-- Add ACCP
-- Add hybrid helper
+- Migrate to tls 1.3
+- Add hybrid helper (if ACCP is included)
 - Switch to PKIX
 - Add `X25519MLKEM768` to named groups; add `rsa_pkcs1_sha384` to signatureSchemes for cert-chain compatibility
 - Keep classical authentication
@@ -234,6 +236,7 @@ Network remains mixed-mode until all nodes publish PQ certs.
 - Remove classical TLS authentication schemes
 - Require `pq_gossip_ca_certificate`
 - Retain hybrid key exchange
+- At this point we need the custom ACCP build (if included and if we intend to accelerate PQ layout)
 
 ---
 
@@ -289,10 +292,9 @@ Provisioning and disaster-recovery procedures therefore expand to include PQ key
 
 Each migration phase is independently rollback-able:
 
-- TLS provider rollback
-- HAPI field rollback
-- ML-DSA disablement
-- Reintroduction of classical schemes
+- Phase 1: highly rollback-able at any point (even after successfully release and deploy on maintain)
+- Phase 2: this includes api changes and state changes, its rollback-able before releasing to main. New content can be ignored if rollback is needed after releasing.
+- Phases 3 & 4: highly rollback-able at any point (even after successfully release and deploy on maintain)
 
 ---
 
