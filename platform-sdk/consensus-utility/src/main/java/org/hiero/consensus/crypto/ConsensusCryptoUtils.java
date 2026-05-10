@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
@@ -84,10 +85,9 @@ public class ConsensusCryptoUtils {
     public static KeyStore createEmptyTrustStore() throws KeyStoreException {
         final KeyStore trustStore;
         try {
-            trustStore = KeyStore.getInstance(CryptoConstants.KEYSTORE_TYPE);
+            trustStore = KeyStore.getInstance(CryptoConstants.KEYSTORE_TYPE, CryptoConstants.KEYSTORE_PROVIDER);
             trustStore.load(null);
-        } catch (final CertificateException | IOException | NoSuchAlgorithmException e) {
-            // cannot be thrown when calling load(null)
+        } catch (final CertificateException | IOException | NoSuchAlgorithmException | NoSuchProviderException e) {
             throw new CryptographyException(e);
         }
         return trustStore;
@@ -125,20 +125,26 @@ public class ConsensusCryptoUtils {
     @NonNull
     public static KeyManagerFactory createKeyManagerFactory(
             @NonNull final Certificate certificate,
+            @NonNull final Certificate caCertificate,
             @NonNull final PrivateKey privateKey,
             @NonNull final Configuration configuration)
             throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException {
         final char[] password = getConfiguredKeystorePassword(configuration).toCharArray();
 
-        // the agrKeyStore should contain an entry with both the private key and the certificate
-        final KeyStore agrKeyStore = ConsensusCryptoUtils.createEmptyTrustStore();
-        agrKeyStore.setKeyEntry("key", privateKey, password, new Certificate[] {certificate});
+        try {
+            final KeyStore agrKeyStore =
+                    KeyStore.getInstance(CryptoConstants.KEYSTORE_TYPE, CryptoConstants.KEYSTORE_PROVIDER);
+            agrKeyStore.load(null, password);
+            agrKeyStore.setKeyEntry(
+                    "key", privateKey, password, new Certificate[] {certificate, caCertificate});
+            agrKeyStore.setCertificateEntry("ca", caCertificate);
 
-        // "PKIX" may be more interoperable than KeyManagerFactory.getDefaultAlgorithm or
-        final KeyManagerFactory keyManagerFactory =
-                KeyManagerFactory.getInstance(CryptoConstants.KEY_MANAGER_FACTORY_TYPE);
-        keyManagerFactory.init(agrKeyStore, password);
-
-        return keyManagerFactory;
+            final KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(
+                    CryptoConstants.KEY_MANAGER_FACTORY_TYPE, CryptoConstants.KEY_MANAGER_FACTORY_PROVIDER);
+            keyManagerFactory.init(agrKeyStore, password);
+            return keyManagerFactory;
+        } catch (final NoSuchProviderException | java.io.IOException | java.security.cert.CertificateException e) {
+            throw new CryptographyException(e);
+        }
     }
 }

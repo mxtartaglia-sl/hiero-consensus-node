@@ -69,8 +69,11 @@ public final class CertificateUtils {
                     new X500Principal(distinguishedName),
                     pair.getPublic());
 
-            final JcaContentSignerBuilder signerBuilder =
-                    new JcaContentSignerBuilder(signatureAlgorithm).setProvider(BouncyCastleProvider.PROVIDER_NAME);
+            // No explicit signer provider — the JCA provider chain is already ordered so that
+            // ACCP (position 1) serves every algorithm it implements (RSA-PSS, Ed25519, ML-DSA,
+            // ECDSA), and BouncyCastle (position 2) covers everything else. Pinning to BC here
+            // would bypass ACCP for the cert-signing op, including for ML-DSA.
+            final JcaContentSignerBuilder signerBuilder = new JcaContentSignerBuilder(signatureAlgorithm);
             return new JcaX509CertificateConverter()
                     .setProvider(BouncyCastleProvider.PROVIDER_NAME)
                     .getCertificate(v3CertBldr.build(signerBuilder.build(caPair.getPrivate())));

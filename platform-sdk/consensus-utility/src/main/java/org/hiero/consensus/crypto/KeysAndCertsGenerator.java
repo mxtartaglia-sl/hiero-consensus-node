@@ -85,15 +85,6 @@ public class KeysAndCertsGenerator {
         return generate(nodeId, schema, sigDetRandom, agrDetRandom);
     }
 
-    /**
-     * Generated keys using the supplied randomness and creates certificates with those keys.
-     *
-     * @param nodeId       the node ID used for the certificate distinguished names
-     * @param schema       the signing schema to use for the signing key pair
-     * @param sigDetRandom the source of randomness for generating the signing key pair
-     * @param agrDetRandom the source of randomness for generating the agreement key pair
-     * @return the generated keys and certs
-     */
     @NonNull
     public static KeysAndCerts generate(
             @NonNull final NodeId nodeId,
@@ -101,9 +92,32 @@ public class KeysAndCertsGenerator {
             @NonNull final SecureRandom sigDetRandom,
             @NonNull final SecureRandom agrDetRandom)
             throws NoSuchAlgorithmException, NoSuchProviderException, KeyGeneratingException {
+        return generate(nodeId,schema,schema.getSigningAlgorithm(),schema.getSigningAlgorithm(),sigDetRandom, agrDetRandom);
+    }
+    /**
+     * Generated keys using the supplied randomness and creates certificates with those keys.
+     *
+     * @param nodeId           the node ID used for the certificate distinguished names
+     * @param schema           the signing schema to use for the signing key pair
+     * @param signingAlgorithm
+     * @param sigDetRandom     the source of randomness for generating the signing key pair
+     * @param agrDetRandom     the source of randomness for generating the agreement key pair
+     * @return the generated keys and certs
+     */
+    @NonNull
+    public static KeysAndCerts generate(
+            @NonNull final NodeId nodeId,
+            @NonNull final SigningSchema schema,
+            final String signingAlgorithm,
+            final String signingAlgorithm2, @NonNull final SecureRandom sigDetRandom,
+            @NonNull final SecureRandom agrDetRandom)
+            throws NoSuchAlgorithmException, NoSuchProviderException, KeyGeneratingException {
+
         final KeyPairGenerator agrKeyGen =
-                KeyPairGenerator.getInstance(CryptoConstants.AGR_TYPE, CryptoConstants.AGR_PROVIDER);
-        agrKeyGen.initialize(CryptoConstants.AGR_KEY_SIZE_BITS, agrDetRandom);
+                KeyPairGenerator.getInstance(CryptoConstants.AGR_TYPE);
+        if(!CryptoConstants.AGR_TYPE.contains("ML-DSA")) {
+            agrKeyGen.initialize(CryptoConstants.AGR_KEY_SIZE_BITS, agrDetRandom);
+        }
 
         final KeyPair sigKeyPair = SigningFactory.generateKeyPair(schema, sigDetRandom);
         final KeyPair agrKeyPair = agrKeyGen.generateKeyPair();
@@ -112,11 +126,10 @@ public class KeysAndCertsGenerator {
         final String dnA = CertificateUtils.distinguishedName(AGREEMENT.storeName(nodeId));
 
         // create the 2 certs (java.security.cert.Certificate)
-        // both are signed by sigKeyPair, so sigCert is self-signed
         final X509Certificate sigCert = CertificateUtils.generateCertificate(
-                dnS, sigKeyPair, dnS, sigKeyPair, sigDetRandom, schema.getSigningAlgorithm());
+                dnS, sigKeyPair, dnS, sigKeyPair, sigDetRandom, signingAlgorithm);
         final X509Certificate agrCert = CertificateUtils.generateCertificate(
-                dnA, agrKeyPair, dnS, sigKeyPair, agrDetRandom, schema.getSigningAlgorithm());
+                dnA, agrKeyPair, dnS, sigKeyPair, agrDetRandom, signingAlgorithm2);
         return new KeysAndCerts(sigKeyPair, agrKeyPair, sigCert, agrCert);
     }
 
@@ -127,12 +140,11 @@ public class KeysAndCertsGenerator {
      */
     @NonNull
     public static KeyPair generateAgreementKeyPair() throws NoSuchAlgorithmException, NoSuchProviderException {
-        // getInstanceStrong() is no longer blocking - https://blogs.oracle.com/linux/post/rngd1
-        final SecureRandom secureRandom = SecureRandom.getInstanceStrong();
-        // generate the agreement key pair
+        // See generate(...) above for why AGR_KEY_SIZE_BITS must be passed explicitly when
+        // AGR_TYPE = "EC" (BC's default curve is prime239v1, unusable in TLS 1.3).
         final KeyPairGenerator keyPairGenerator =
                 KeyPairGenerator.getInstance(CryptoConstants.AGR_TYPE, CryptoConstants.AGR_PROVIDER);
-        keyPairGenerator.initialize(CryptoConstants.AGR_KEY_SIZE_BITS, secureRandom);
+        keyPairGenerator.initialize(CryptoConstants.AGR_KEY_SIZE_BITS);
         return keyPairGenerator.generateKeyPair();
     }
 

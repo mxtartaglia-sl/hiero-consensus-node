@@ -31,7 +31,12 @@ import org.hiero.sloth.fixtures.specs.SlothSpecs;
                 "-XX:+AlwaysPreTouch",
                 "-XX:ConcGCThreads=4",
                 "-Xms4g",
-                "-Xmx4g"
+                "-Xmx4g",
+                // BCJSSE's internal logger surfaces "unrecognised NamedGroup" /
+                // "disabled NamedGroup" warnings via java.util.logging.
+                "-Dorg.bouncycastle.jsse.debug=true",
+                // Standard JSSE handshake trace (best-effort — output goes to System.err).
+                "-Djavax.net.debug=ssl:handshake"
         })
 public class SignatureSchemeExperiment {
 
@@ -46,8 +51,24 @@ public class SignatureSchemeExperiment {
                     .withConfigValue("event.creation.maxCreationRate", 0)
                     .withConfigValue("event.creation.period", "400us")
                     .withConfigValue("broadcast.enableBroadcast", true)
-                    //.withConfigValue("modules.eventIntake", "org.hiero.consensus.event.intake.concurrent")
                     .withConfigValue("sync.pingPeriod", "100ms");
+            final SecureRandom secureRandom;
+            try {
+                secureRandom = SecureRandom.getInstanceStrong();
+                network.nodes().forEach(node -> {
+                    try {
+                        node.keysAndCerts(KeysAndCertsGenerator.generate(
+                                node.selfId(), SigningSchema.RSA, "SHA384withRSA", "SHA384withRSAandMGF1",
+                                secureRandom, secureRandom
+                        ));
+                    } catch (final NoSuchAlgorithmException | NoSuchProviderException | KeyGeneratingException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
+            } catch (final NoSuchAlgorithmException e) {
+                throw new RuntimeException(e);
+            }
 
         });
     }

@@ -86,6 +86,7 @@ public class InboundConnectionHandler {
             clientSocket.setSoTimeout(socketConfig.timeoutSyncClientSocket());
 
             final SSLSocket sslSocket = (SSLSocket) clientSocket;
+            TlsFactory.logHandshake("server", sslSocket);
             final PeerInfo connectedPeer =
                     networkPeerIdentifier.identifyTlsPeer(sslSocket.getSession().getPeerCertificates());
             if (connectedPeer == null) {
@@ -121,6 +122,8 @@ public class InboundConnectionHandler {
                     selfId,
                     formattedException);
             NetworkUtils.close(clientSocket);
+            //SO if there is a connection issue we quit immediately and do not retry
+            System.exit(-1);
         } catch (final RuntimeException e) {
             logger.error(
                     EXCEPTION.getMarker(),

@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: Apache-2.0
-import org.gradle.internal.os.OperatingSystem
 import org.gradle.testing.jacoco.plugins.JacocoTaskExtension
 import org.gradlex.javamodule.dependencies.dsl.GradleOnlyDirectives
 
@@ -22,45 +21,37 @@ testFixturesModuleInfo {
     runtimeOnly("io.grpc.netty.shaded")
 }
 
-// ACCP classifier jars are self-contained JPMS modules that all declare the same module
-// name (com.amazon.corretto.crypto.provider), so only ONE classifier can be on any given
-// module path. We have two targets:
-//   - test-worker JVM: host-matching classifier (selected at configure time)
-//   - Docker child JVM: always Linux, shipped into build/data/lib/ via copyDockerizedApp
-val hostAccpClassifier = run {
-    val os = OperatingSystem.current()
+// ACCP classifier jars all declare the same JPMS module name, so only ONE classifier can be
+// on any given module path. The test-worker JVM and the Docker child JVM may need different
+// classifiers, so they're decoupled into two configurations:
+//   - test-worker JVM: host-matching classifier (auto-detected)
+//   - Docker child JVM: matches the container's CPU arch (host arch by default; override
+//                       with -PaccpDockerClassifier=linux-x86_64 for qemu-emulated x86)
+val hostAccpClassifier: String = run {
+    val os = System.getProperty("os.name").lowercase()
     val arch = System.getProperty("os.arch").lowercase()
     val isArm = arch == "aarch64" || arch == "arm64"
     when {
-        os.isMacOsX && isArm -> "osx-aarch_64"
-        os.isMacOsX -> "osx-x86_64"
-        os.isLinux && isArm -> "linux-aarch_64"
-        os.isLinux -> "linux-x86_64"
-        else -> error("Unsupported host OS for ACCP: ${os.name} $arch")
+        os.contains("mac") && isArm -> "osx-aarch_64"
+        os.contains("mac") -> "osx-x86_64"
+        isArm -> "linux-aarch_64"
+        else -> "linux-x86_64"
     }
 }
 
-// Docker classifier must match the container's CPU arch. Docker Desktop runs containers
-// in the host's native arch by default (arm64 on Apple Silicon, x86_64 elsewhere). Override
-// with -PaccpDockerClassifier=linux-x86_64 if you force qemu-emulated x86 on Apple Silicon.
 val dockerAccpClassifier: String = providers.gradleProperty("accpDockerClassifier").orNull
     ?: when (System.getProperty("os.arch").lowercase()) {
         "aarch64", "arm64" -> "linux-aarch_64"
         else -> "linux-x86_64"
     }
 
-// Separate resolvable configuration for the Docker bundle — decoupled from
-// testFixturesRuntimeClasspath so it can carry a different classifier.
 val accpDockerBundle by configurations.creating {
     isCanBeResolved = true
     isCanBeConsumed = false
 }
 
 dependencies {
-    // Test-worker JVM: host-matching classifier so ACCP's Loader finds the right native lib.
     testFixturesRuntimeOnly("software.amazon.cryptools:AmazonCorrettoCryptoProvider:2.5.0:$hostAccpClassifier")
-
-    // Docker child JVM: matches the container's arch (auto-detected from host arch).
     accpDockerBundle("software.amazon.cryptools:AmazonCorrettoCryptoProvider:2.5.0:$dockerAccpClassifier")
 }
 
@@ -87,12 +78,14 @@ tasks.register<Sync>("copyDockerizedApp") {
         rename { "DockerApp.jar" }
     }
     into("lib") {
-        // Everything from the runtime classpath EXCEPT the host-classifier ACCP jar —
-        // a macOS .dylib would not load inside the Linux container.
+        // Everything from the runtime classpath EXCEPT any ACCP jar — Maven classifiers and
+        // local builds both ship platform-specific native libs that won't load inside the
+        // Linux container, and mixing two ACCP jars on one classpath causes class/native
+        // version skew (UnsatisfiedLinkError on JNI-declared methods).
         from(configurations.testFixturesRuntimeClasspath) {
-            exclude("AmazonCorrettoCryptoProvider-*.jar")
+            exclude("AmazonCorrettoCryptoProvider-*.jar", "accp-*.jar")
         }
-        // Substitute in the Linux classifier for the container.
+        // Single ACCP jar matching the container's arch.
         from(accpDockerBundle)
     }
 }
