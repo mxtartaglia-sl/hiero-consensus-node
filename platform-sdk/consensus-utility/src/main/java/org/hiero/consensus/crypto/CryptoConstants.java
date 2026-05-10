@@ -22,7 +22,7 @@ public final class CryptoConstants {
     // size of each symmetric key, in bytes
     public static final int SYM_KEY_SIZE_BYTES = 32; // 256 bits
     // the algorithms and providers to use (AGR is key agreement, SIG is signatures)
-    public static final String AGR_TYPE = "ML-DSA-65";
+    public static final String AGR_TYPE = "EC";
     public static final String SIG_TYPE1 = "RSA";
     public static final String SIG_PROVIDER = getBCProviderName();
     public static final String AGR_PROVIDER = SIG_PROVIDER;
