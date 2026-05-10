@@ -155,13 +155,6 @@ public final class SigningFactory {
      */
     public static @NonNull BytesSignatureVerifier createVerifier(
             @NonNull final SigningImplementation signType, @NonNull final PublicKey publicKey) {
-        log.info(DEMO_INFO.getMarker(),
-                "[VERIFY] impl={} alg={} provider={} pubKeyClass={} pubKeyAlg={}",
-                signType,
-                signType.getSigningSchema().getSigningAlgorithm(),
-                signType.getProvider(),
-                publicKey.getClass().getName(),
-                publicKey.getAlgorithm());
         if (signType == ED25519_SODIUM) {
             return new SodiumVerifier(publicKey);
         }
