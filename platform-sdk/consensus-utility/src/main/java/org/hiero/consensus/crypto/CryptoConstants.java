@@ -76,7 +76,7 @@ public final class CryptoConstants {
      *       Ed25519 / ML-DSA.</li>
      * </ol>
      */
-    private static String getBCProviderName() {
+    public static String getBCProviderName() {
         final boolean accpAvailable = registerAccpAtPosition1IfAvailable();
         final BouncyCastleProvider bcProv = new BouncyCastleProvider();
         Security.addProvider(bcProv);

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 package org.hiero.consensus.crypto;
 
+import static com.swirlds.logging.legacy.LogMarker.DEMO_INFO;
 import static org.hiero.consensus.crypto.SigningImplementation.ED25519_SODIUM;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
@@ -11,6 +12,8 @@ import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.util.EnumMap;
 import java.util.Map;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hiero.base.crypto.BytesSignatureVerifier;
 import org.hiero.base.crypto.BytesSigner;
 import org.hiero.base.crypto.CryptographyException;
@@ -23,6 +26,8 @@ import org.hiero.consensus.crypto.internal.SodiumVerifier;
  * Factory for creating instances to use for the supported signing schemas.
  */
 public final class SigningFactory {
+    private static final Logger log = LogManager.getLogger(SigningFactory.class);
+
     private SigningFactory() {}
 
     /**
@@ -74,7 +79,16 @@ public final class SigningFactory {
             throw new CryptographyException(e);
         }
         keyPairGen.initialize(signingSchema.getKeySizeBits(), secureRandom);
-        return keyPairGen.generateKeyPair();
+        final KeyPair kp = keyPairGen.generateKeyPair();
+        log.info(DEMO_INFO.getMarker(),
+                "[KEYGEN] schema={} keyType={} -> KPG.provider={} pubClass={} privClass={} pubAlg={}",
+                signingSchema,
+                signingSchema.getKeyType(),
+                keyPairGen.getProvider().getName(),
+                kp.getPublic().getClass().getName(),
+                kp.getPrivate().getClass().getName(),
+                kp.getPublic().getAlgorithm());
+        return kp;
     }
 
     /**
@@ -103,6 +117,13 @@ public final class SigningFactory {
      */
     public static @NonNull BytesSigner createSigner(
             @NonNull final SigningImplementation signType, @NonNull final KeyPair keyPair) {
+        log.info(DEMO_INFO.getMarker(),
+                "[SIGN] impl={} alg={} provider={} privClass={} privAlg={}",
+                signType,
+                signType.getSigningSchema().getSigningAlgorithm(),
+                signType.getProvider(),
+                keyPair.getPrivate().getClass().getName(),
+                keyPair.getPrivate().getAlgorithm());
         if (signType == ED25519_SODIUM) {
             return new SodiumSigner(keyPair);
         }
@@ -134,6 +155,13 @@ public final class SigningFactory {
      */
     public static @NonNull BytesSignatureVerifier createVerifier(
             @NonNull final SigningImplementation signType, @NonNull final PublicKey publicKey) {
+        log.info(DEMO_INFO.getMarker(),
+                "[VERIFY] impl={} alg={} provider={} pubKeyClass={} pubKeyAlg={}",
+                signType,
+                signType.getSigningSchema().getSigningAlgorithm(),
+                signType.getProvider(),
+                publicKey.getClass().getName(),
+                publicKey.getAlgorithm());
         if (signType == ED25519_SODIUM) {
             return new SodiumVerifier(publicKey);
         }

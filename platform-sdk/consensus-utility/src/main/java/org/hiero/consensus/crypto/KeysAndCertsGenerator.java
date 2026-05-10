@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 package org.hiero.consensus.crypto;
 
+import static com.swirlds.logging.legacy.LogMarker.DEMO_INFO;
 import static org.hiero.consensus.crypto.KeyCertPurpose.AGREEMENT;
 import static org.hiero.consensus.crypto.KeyCertPurpose.SIGNING;
+import static org.hiero.consensus.crypto.SigningImplementation.RSA_ACCP;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import java.security.KeyPair;
@@ -12,6 +14,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hiero.base.crypto.DetRandomProvider;
 import org.hiero.consensus.model.node.KeysAndCerts;
 import org.hiero.consensus.model.node.NodeId;
@@ -25,6 +29,8 @@ import org.hiero.consensus.model.node.NodeId;
  * NIST p-384 curve specified by the CNSA for ECDH and ECDSA.
  */
 public class KeysAndCertsGenerator {
+    private static final Logger log = LogManager.getLogger(KeysAndCertsGenerator.class);
+
     private static final int MASTER_KEY_MULTIPLIER = 157;
     private static final int SWIRLD_ID_MULTIPLIER = 163;
     private static final int BITS_IN_BYTE = 8;
@@ -118,9 +124,42 @@ public class KeysAndCertsGenerator {
         if(!CryptoConstants.AGR_TYPE.contains("ML-DSA")) {
             agrKeyGen.initialize(CryptoConstants.AGR_KEY_SIZE_BITS, agrDetRandom);
         }
+        log.info(DEMO_INFO.getMarker(),
+                "[KEYGEN/agr] node={} agrType={} -> agrKPG.provider={}",
+                nodeId,
+                CryptoConstants.AGR_TYPE,
+                agrKeyGen.getProvider().getName());
 
-        final KeyPair sigKeyPair = SigningFactory.generateKeyPair(schema, sigDetRandom);
+        var provider = switch (schema.getKeyType()) {
+            case "RSA" -> RSA_ACCP.getProvider();
+            case "Ed25519" -> "SunEC";
+            default -> "BC";
+        };
+        log.info(DEMO_INFO.getMarker(),
+                "[KEYGEN/sig] node={} schema={} keyType={} signingAlg1={} signingAlg2={} pinnedProvider={}",
+                nodeId,
+                schema,
+                schema.getKeyType(),
+                signingAlgorithm,
+                signingAlgorithm2,
+                provider);
+
+        final KeyPairGenerator sigKpg = KeyPairGenerator.getInstance(schema.getKeyType(), provider);
+        final KeyPair sigKeyPair = sigKpg.generateKeyPair();
         final KeyPair agrKeyPair = agrKeyGen.generateKeyPair();
+        log.info(DEMO_INFO.getMarker(),
+                "[KEYGEN/sig.done] node={} sigKPG.provider={} pubClass={} privClass={} pubAlg={}",
+                nodeId,
+                sigKpg.getProvider().getName(),
+                sigKeyPair.getPublic().getClass().getName(),
+                sigKeyPair.getPrivate().getClass().getName(),
+                sigKeyPair.getPublic().getAlgorithm());
+        log.info(DEMO_INFO.getMarker(),
+                "[KEYGEN/agr.done] node={} agrPubClass={} agrPrivClass={} agrPubAlg={}",
+                nodeId,
+                agrKeyPair.getPublic().getClass().getName(),
+                agrKeyPair.getPrivate().getClass().getName(),
+                agrKeyPair.getPublic().getAlgorithm());
 
         final String dnS = CertificateUtils.distinguishedName(SIGNING.storeName(nodeId));
         final String dnA = CertificateUtils.distinguishedName(AGREEMENT.storeName(nodeId));

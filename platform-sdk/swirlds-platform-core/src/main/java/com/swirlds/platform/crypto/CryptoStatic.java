@@ -43,6 +43,7 @@ import org.hiero.consensus.concurrent.framework.config.ThreadConfiguration;
 import org.hiero.consensus.crypto.ConsensusCryptoUtils;
 import org.hiero.consensus.crypto.KeyGeneratingException;
 import org.hiero.consensus.crypto.KeysAndCertsGenerator;
+import org.hiero.consensus.crypto.SigningSchema;
 import org.hiero.consensus.exceptions.ThrowableUtilities;
 import org.hiero.consensus.model.node.KeysAndCerts;
 import org.hiero.consensus.model.node.NodeId;
@@ -107,7 +108,12 @@ public final class CryptoStatic {
      * @throws KeyStoreException    if there is no provider that supports the required keystore type
      */
     @NonNull
-    public static Map<NodeId, KeysAndCerts> generateKeysAndCerts(final @NonNull Collection<NodeId> nodeIds)
+    public static Map<NodeId, KeysAndCerts> generateKeysAndCerts(final @NonNull Collection<NodeId> nodeIds)throws ExecutionException, InterruptedException, KeyStoreException {
+        return generateKeysAndCerts(nodeIds, SigningSchema.RSA);
+    }
+
+
+    public static Map<NodeId, KeysAndCerts> generateKeysAndCerts(final @NonNull Collection<NodeId> nodeIds,  @NonNull final SigningSchema schema)
             throws ExecutionException, InterruptedException, KeyStoreException {
         final Map<NodeId, Future<KeysAndCerts>> futures = HashMap.newHashMap(nodeIds.size());
         try (final ExecutorService threadPool =
@@ -120,7 +126,7 @@ public final class CryptoStatic {
                 // Crypto objects will be created in parallel. The process of creating a Crypto object is
                 // very CPU intensive even if the keys are loaded from the hard drive, so making it parallel
                 // greatly reduces the time it takes to create them all.
-                futures.put(nodeId, threadPool.submit(() -> KeysAndCertsGenerator.generate(nodeId)));
+                futures.put(nodeId, threadPool.submit(() -> KeysAndCertsGenerator.generate(nodeId, schema)));
             }
             final Map<NodeId, KeysAndCerts> keysAndCerts = futuresToMap(futures);
             threadPool.shutdown();
