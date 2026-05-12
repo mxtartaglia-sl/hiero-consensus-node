@@ -73,6 +73,21 @@ public final class DockerMain {
         } catch (final Throwable t) {
             logger.warn("ACCP registration skipped: {}: {}", t.getClass().getName(), t.getMessage());
         }
+        logSecurityProviders();
+    }
+
+    private static void logSecurityProviders() {
+        final java.security.Provider[] providers = java.security.Security.getProviders();
+        logger.info("JCE providers ({}):", providers.length);
+        for (int i = 0; i < providers.length; i++) {
+            final java.security.Provider p = providers[i];
+            logger.info(
+                    "  [{}] {} v{} ({})",
+                    i + 1,
+                    p.getName(),
+                    p.getVersionStr(),
+                    p.getClass().getName());
+        }
     }
 
     /**

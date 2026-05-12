@@ -1,0 +1,603 @@
+=== A.classical.noAccp trial 1 ===
+=== Results ===
+Mean     : 4.614 ms
+Median   : 4.541 ms
+p95      : 5.373 ms
+p99      : 6.291 ms
+Min      : 4.052 ms
+Max      : 7.807 ms
+Throughput: 216.7 handshakes/sec
+
+=== A.classical.noAccp trial 2 ===
+=== Results ===
+Mean     : 4.575 ms
+Median   : 4.463 ms
+p95      : 5.359 ms
+p99      : 6.142 ms
+Min      : 4.052 ms
+Max      : 8.773 ms
+Throughput: 218.6 handshakes/sec
+
+=== A.classical.noAccp trial 3 ===
+=== Results ===
+Mean     : 4.648 ms
+Median   : 4.506 ms
+p95      : 5.455 ms
+p99      : 6.514 ms
+Min      : 4.068 ms
+Max      : 9.303 ms
+Throughput: 215.2 handshakes/sec
+
+=== A.classical.accp trial 1 ===
+=== Results ===
+Mean     : 1.515 ms
+Median   : 1.510 ms
+p95      : 2.161 ms
+p99      : 3.494 ms
+Min      : 0.864 ms
+Max      : 4.633 ms
+Throughput: 660.1 handshakes/sec
+
+=== A.classical.accp trial 2 ===
+=== Results ===
+Mean     : 1.469 ms
+Median   : 1.383 ms
+p95      : 2.233 ms
+p99      : 3.539 ms
+Min      : 0.886 ms
+Max      : 4.596 ms
+Throughput: 680.8 handshakes/sec
+
+=== A.classical.accp trial 3 ===
+=== Results ===
+Mean     : 1.476 ms
+Median   : 1.401 ms
+p95      : 2.221 ms
+p99      : 3.301 ms
+Min      : 0.845 ms
+Max      : 4.690 ms
+Throughput: 677.4 handshakes/sec
+
+=== A.hybrid.noAccp trial 1 ===
+=== Results ===
+Mean     : 4.761 ms
+Median   : 4.600 ms
+p95      : 5.508 ms
+p99      : 6.791 ms
+Min      : 4.203 ms
+Max      : 7.860 ms
+Throughput: 210.0 handshakes/sec
+
+=== A.hybrid.noAccp trial 2 ===
+=== Results ===
+Mean     : 4.710 ms
+Median   : 4.627 ms
+p95      : 5.560 ms
+p99      : 6.494 ms
+Min      : 4.092 ms
+Max      : 7.797 ms
+Throughput: 212.3 handshakes/sec
+
+=== A.hybrid.noAccp trial 3 ===
+=== Results ===
+Mean     : 4.962 ms
+Median   : 4.828 ms
+p95      : 5.684 ms
+p99      : 6.503 ms
+Min      : 4.235 ms
+Max      : 21.099 ms
+Throughput: 201.5 handshakes/sec
+
+=== A.hybrid.accp trial 1 ===
+=== Results ===
+Mean     : 1.761 ms
+Median   : 1.683 ms
+p95      : 2.600 ms
+p99      : 3.845 ms
+Min      : 1.093 ms
+Max      : 6.070 ms
+Throughput: 567.9 handshakes/sec
+
+=== A.hybrid.accp trial 2 ===
+=== Results ===
+Mean     : 1.677 ms
+Median   : 1.526 ms
+p95      : 2.502 ms
+p99      : 4.053 ms
+Min      : 1.116 ms
+Max      : 5.211 ms
+Throughput: 596.3 handshakes/sec
+
+=== A.hybrid.accp trial 3 ===
+=== Results ===
+Mean     : 1.725 ms
+Median   : 1.652 ms
+p95      : 2.582 ms
+p99      : 4.218 ms
+Min      : 1.011 ms
+Max      : 5.431 ms
+Throughput: 579.8 handshakes/sec
+
+=== A.pure.noAccp trial 1 ===
+=== Results ===
+Mean     : 4.523 ms
+Median   : 4.448 ms
+p95      : 5.130 ms
+p99      : 6.099 ms
+Min      : 3.975 ms
+Max      : 8.062 ms
+Throughput: 221.1 handshakes/sec
+
+=== A.pure.noAccp trial 2 ===
+=== Results ===
+Mean     : 4.822 ms
+Median   : 4.746 ms
+p95      : 5.423 ms
+p99      : 6.447 ms
+Min      : 4.256 ms
+Max      : 7.932 ms
+Throughput: 207.4 handshakes/sec
+
+=== A.pure.noAccp trial 3 ===
+=== Results ===
+Mean     : 4.703 ms
+Median   : 4.594 ms
+p95      : 5.464 ms
+p99      : 6.371 ms
+Min      : 4.129 ms
+Max      : 8.109 ms
+Throughput: 212.6 handshakes/sec
+
+=== A.pure.accp trial 1 ===
+=== Results ===
+Mean     : 1.426 ms
+Median   : 1.347 ms
+p95      : 2.168 ms
+p99      : 3.249 ms
+Min      : 0.865 ms
+Max      : 5.333 ms
+Throughput: 701.4 handshakes/sec
+
+=== A.pure.accp trial 2 ===
+=== Results ===
+Mean     : 1.352 ms
+Median   : 1.246 ms
+p95      : 2.095 ms
+p99      : 3.127 ms
+Min      : 0.851 ms
+Max      : 4.552 ms
+Throughput: 739.5 handshakes/sec
+
+=== A.pure.accp trial 3 ===
+=== Results ===
+Mean     : 1.390 ms
+Median   : 1.310 ms
+p95      : 2.080 ms
+p99      : 2.916 ms
+Min      : 0.865 ms
+Max      : 5.235 ms
+Throughput: 719.5 handshakes/sec
+
+=== B.classical.noAccp trial 1 ===
+=== Results ===
+Mean     : 1.957 ms
+Median   : 1.846 ms
+p95      : 3.072 ms
+p99      : 4.128 ms
+Min      : 1.107 ms
+Max      : 5.937 ms
+Throughput: 511.1 handshakes/sec
+
+=== B.classical.noAccp trial 2 ===
+=== Results ===
+Mean     : 1.902 ms
+Median   : 1.810 ms
+p95      : 2.760 ms
+p99      : 3.740 ms
+Min      : 1.095 ms
+Max      : 4.650 ms
+Throughput: 525.9 handshakes/sec
+
+=== B.classical.noAccp trial 3 ===
+=== Results ===
+Mean     : 1.939 ms
+Median   : 1.846 ms
+p95      : 2.692 ms
+p99      : 4.353 ms
+Min      : 1.197 ms
+Max      : 4.837 ms
+Throughput: 515.6 handshakes/sec
+
+=== B.classical.accp trial 1 ===
+=== Results ===
+Mean     : 1.678 ms
+Median   : 1.577 ms
+p95      : 2.497 ms
+p99      : 3.615 ms
+Min      : 1.106 ms
+Max      : 4.808 ms
+Throughput: 595.9 handshakes/sec
+
+=== B.classical.accp trial 2 ===
+=== Results ===
+Mean     : 1.710 ms
+Median   : 1.611 ms
+p95      : 2.525 ms
+p99      : 3.840 ms
+Min      : 1.026 ms
+Max      : 6.314 ms
+Throughput: 584.6 handshakes/sec
+
+=== B.classical.accp trial 3 ===
+=== Results ===
+Mean     : 1.753 ms
+Median   : 1.639 ms
+p95      : 2.519 ms
+p99      : 3.556 ms
+Min      : 1.082 ms
+Max      : 5.510 ms
+Throughput: 570.4 handshakes/sec
+
+=== B.hybrid.noAccp trial 1 ===
+=== Results ===
+Mean     : 2.089 ms
+Median   : 1.949 ms
+p95      : 3.164 ms
+p99      : 4.221 ms
+Min      : 1.263 ms
+Max      : 5.164 ms
+Throughput: 478.7 handshakes/sec
+
+=== B.hybrid.noAccp trial 2 ===
+=== Results ===
+Mean     : 2.008 ms
+Median   : 1.914 ms
+p95      : 2.953 ms
+p99      : 3.917 ms
+Min      : 1.234 ms
+Max      : 5.583 ms
+Throughput: 497.9 handshakes/sec
+
+=== B.hybrid.noAccp trial 3 ===
+=== Results ===
+Mean     : 2.074 ms
+Median   : 1.946 ms
+p95      : 3.054 ms
+p99      : 3.981 ms
+Min      : 1.221 ms
+Max      : 5.942 ms
+Throughput: 482.3 handshakes/sec
+
+=== B.hybrid.accp trial 1 ===
+=== Results ===
+Mean     : 1.862 ms
+Median   : 1.793 ms
+p95      : 2.655 ms
+p99      : 3.827 ms
+Min      : 1.165 ms
+Max      : 5.973 ms
+Throughput: 537.1 handshakes/sec
+
+=== B.hybrid.accp trial 2 ===
+=== Results ===
+Mean     : 1.851 ms
+Median   : 1.746 ms
+p95      : 2.624 ms
+p99      : 3.547 ms
+Min      : 1.160 ms
+Max      : 4.990 ms
+Throughput: 540.3 handshakes/sec
+
+=== B.hybrid.accp trial 3 ===
+=== Results ===
+Mean     : 1.826 ms
+Median   : 1.698 ms
+p95      : 2.684 ms
+p99      : 4.227 ms
+Min      : 1.113 ms
+Max      : 6.242 ms
+Throughput: 547.7 handshakes/sec
+
+=== B.pure.noAccp trial 1 ===
+=== Results ===
+Mean     : 1.726 ms
+Median   : 1.588 ms
+p95      : 2.712 ms
+p99      : 3.850 ms
+Min      : 0.920 ms
+Max      : 5.056 ms
+Throughput: 579.4 handshakes/sec
+
+=== B.pure.noAccp trial 2 ===
+=== Results ===
+Mean     : 1.690 ms
+Median   : 1.609 ms
+p95      : 2.434 ms
+p99      : 3.784 ms
+Min      : 0.941 ms
+Max      : 4.967 ms
+Throughput: 591.8 handshakes/sec
+
+=== B.pure.noAccp trial 3 ===
+=== Results ===
+Mean     : 1.590 ms
+Median   : 1.478 ms
+p95      : 2.438 ms
+p99      : 4.026 ms
+Min      : 0.896 ms
+Max      : 4.698 ms
+Throughput: 629.0 handshakes/sec
+
+=== B.pure.accp trial 1 ===
+=== Results ===
+Mean     : 1.749 ms
+Median   : 1.655 ms
+p95      : 2.616 ms
+p99      : 4.066 ms
+Min      : 1.024 ms
+Max      : 6.060 ms
+Throughput: 571.6 handshakes/sec
+
+=== B.pure.accp trial 2 ===
+=== Results ===
+Mean     : 1.565 ms
+Median   : 1.488 ms
+p95      : 2.257 ms
+p99      : 3.397 ms
+Min      : 0.887 ms
+Max      : 4.933 ms
+Throughput: 639.0 handshakes/sec
+
+=== B.pure.accp trial 3 ===
+=== Results ===
+Mean     : 1.566 ms
+Median   : 1.469 ms
+p95      : 2.393 ms
+p99      : 3.359 ms
+Min      : 0.880 ms
+Max      : 5.232 ms
+Throughput: 638.6 handshakes/sec
+
+MATRIX COMPLETE
+=== SunJSSE.classical.noAccp trial 1 ===
+=== Results ===
+Mean     : 4.711 ms
+Median   : 4.600 ms
+p95      : 5.505 ms
+p99      : 6.034 ms
+Min      : 4.115 ms
+Max      : 7.458 ms
+Throughput: 212.3 handshakes/sec
+
+=== SunJSSE.classical.noAccp trial 2 ===
+=== Results ===
+Mean     : 4.714 ms
+Median   : 4.651 ms
+p95      : 5.405 ms
+p99      : 6.144 ms
+Min      : 4.135 ms
+Max      : 7.338 ms
+Throughput: 212.2 handshakes/sec
+
+=== SunJSSE.classical.noAccp trial 3 ===
+=== Results ===
+Mean     : 4.692 ms
+Median   : 4.577 ms
+p95      : 5.463 ms
+p99      : 6.260 ms
+Min      : 4.133 ms
+Max      : 8.264 ms
+Throughput: 213.2 handshakes/sec
+
+=== SunJSSE.classical.accp trial 1 ===
+=== Results ===
+Mean     : 1.304 ms
+Median   : 1.230 ms
+p95      : 1.880 ms
+p99      : 2.342 ms
+Min      : 0.908 ms
+Max      : 4.277 ms
+Throughput: 766.7 handshakes/sec
+
+=== SunJSSE.classical.accp trial 2 ===
+=== Results ===
+Mean     : 1.256 ms
+Median   : 1.182 ms
+p95      : 1.787 ms
+p99      : 2.190 ms
+Min      : 0.878 ms
+Max      : 3.480 ms
+Throughput: 795.9 handshakes/sec
+
+=== SunJSSE.classical.accp trial 3 ===
+=== Results ===
+Mean     : 1.238 ms
+Median   : 1.177 ms
+p95      : 1.734 ms
+p99      : 2.099 ms
+Min      : 0.872 ms
+Max      : 3.078 ms
+Throughput: 807.8 handshakes/sec
+
+DONE
+=== A.classical.noAccp.bcPinned trial 1 ===
+=== Results ===
+Mean     : 2.288 ms
+Median   : 2.176 ms
+p95      : 3.357 ms
+p99      : 4.386 ms
+Min      : 1.664 ms
+Max      : 6.101 ms
+Throughput: 437.1 handshakes/sec
+
+=== A.classical.noAccp.bcPinned trial 2 ===
+=== Results ===
+Mean     : 2.326 ms
+Median   : 2.170 ms
+p95      : 3.298 ms
+p99      : 5.059 ms
+Min      : 1.693 ms
+Max      : 8.809 ms
+Throughput: 430.0 handshakes/sec
+
+=== A.classical.noAccp.bcPinned trial 3 ===
+=== Results ===
+Mean     : 2.243 ms
+Median   : 2.116 ms
+p95      : 3.236 ms
+p99      : 4.017 ms
+Min      : 1.672 ms
+Max      : 5.709 ms
+Throughput: 445.7 handshakes/sec
+
+=== A.hybrid.noAccp.bcPinned trial 1 ===
+=== Results ===
+Mean     : 2.461 ms
+Median   : 2.248 ms
+p95      : 3.974 ms
+p99      : 5.358 ms
+Min      : 1.802 ms
+Max      : 8.297 ms
+Throughput: 406.3 handshakes/sec
+
+=== A.hybrid.noAccp.bcPinned trial 2 ===
+=== Results ===
+Mean     : 2.397 ms
+Median   : 2.279 ms
+p95      : 3.508 ms
+p99      : 4.507 ms
+Min      : 1.783 ms
+Max      : 6.289 ms
+Throughput: 417.2 handshakes/sec
+
+=== A.hybrid.noAccp.bcPinned trial 3 ===
+=== Results ===
+Mean     : 2.443 ms
+Median   : 2.288 ms
+p95      : 3.512 ms
+p99      : 5.360 ms
+Min      : 1.781 ms
+Max      : 6.567 ms
+Throughput: 409.4 handshakes/sec
+
+=== A.pure.noAccp.bcPinned trial 1 ===
+=== Results ===
+Mean     : 2.303 ms
+Median   : 2.170 ms
+p95      : 3.301 ms
+p99      : 5.110 ms
+Min      : 1.737 ms
+Max      : 6.029 ms
+Throughput: 434.2 handshakes/sec
+
+=== A.pure.noAccp.bcPinned trial 2 ===
+=== Results ===
+Mean     : 2.277 ms
+Median   : 2.102 ms
+p95      : 3.395 ms
+p99      : 4.791 ms
+Min      : 1.640 ms
+Max      : 6.487 ms
+Throughput: 439.2 handshakes/sec
+
+=== A.pure.noAccp.bcPinned trial 3 ===
+=== Results ===
+Mean     : 2.227 ms
+Median   : 2.103 ms
+p95      : 3.292 ms
+p99      : 4.627 ms
+Min      : 1.625 ms
+Max      : 6.191 ms
+Throughput: 449.1 handshakes/sec
+
+=== B.classical.noAccp.bcPinned trial 1 ===
+=== Results ===
+Mean     : 2.210 ms
+Median   : 2.115 ms
+p95      : 3.119 ms
+p99      : 4.364 ms
+Min      : 1.357 ms
+Max      : 6.257 ms
+Throughput: 452.5 handshakes/sec
+
+=== B.classical.noAccp.bcPinned trial 2 ===
+=== Results ===
+Mean     : 2.143 ms
+Median   : 2.005 ms
+p95      : 3.110 ms
+p99      : 4.916 ms
+Min      : 1.409 ms
+Max      : 6.652 ms
+Throughput: 466.7 handshakes/sec
+
+=== B.classical.noAccp.bcPinned trial 3 ===
+=== Results ===
+Mean     : 2.128 ms
+Median   : 2.010 ms
+p95      : 3.031 ms
+p99      : 4.878 ms
+Min      : 1.388 ms
+Max      : 6.674 ms
+Throughput: 469.8 handshakes/sec
+
+=== B.hybrid.noAccp.bcPinned trial 1 ===
+=== Results ===
+Mean     : 2.274 ms
+Median   : 2.164 ms
+p95      : 3.134 ms
+p99      : 5.256 ms
+Min      : 1.524 ms
+Max      : 6.147 ms
+Throughput: 439.7 handshakes/sec
+
+=== B.hybrid.noAccp.bcPinned trial 2 ===
+=== Results ===
+Mean     : 2.226 ms
+Median   : 2.112 ms
+p95      : 3.301 ms
+p99      : 4.399 ms
+Min      : 1.441 ms
+Max      : 5.840 ms
+Throughput: 449.3 handshakes/sec
+
+=== B.hybrid.noAccp.bcPinned trial 3 ===
+=== Results ===
+Mean     : 2.247 ms
+Median   : 2.129 ms
+p95      : 3.260 ms
+p99      : 4.716 ms
+Min      : 1.457 ms
+Max      : 7.006 ms
+Throughput: 445.1 handshakes/sec
+
+=== B.pure.noAccp.bcPinned trial 1 ===
+=== Results ===
+Mean     : 2.131 ms
+Median   : 1.996 ms
+p95      : 3.051 ms
+p99      : 3.997 ms
+Min      : 1.325 ms
+Max      : 5.710 ms
+Throughput: 469.2 handshakes/sec
+
+=== B.pure.noAccp.bcPinned trial 2 ===
+=== Results ===
+Mean     : 2.166 ms
+Median   : 2.087 ms
+p95      : 3.047 ms
+p99      : 4.327 ms
+Min      : 1.407 ms
+Max      : 6.211 ms
+Throughput: 461.7 handshakes/sec
+
+=== B.pure.noAccp.bcPinned trial 3 ===
+=== Results ===
+Mean     : 2.051 ms
+Median   : 1.933 ms
+p95      : 3.016 ms
+p99      : 4.179 ms
+Min      : 1.289 ms
+Max      : 6.231 ms
+Throughput: 487.6 handshakes/sec
+
+DONE

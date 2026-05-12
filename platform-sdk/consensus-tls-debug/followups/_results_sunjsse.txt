@@ -1,0 +1,61 @@
+=== SunJSSE.classical.noAccp trial 1 ===
+=== Results ===
+Mean     : 4.711 ms
+Median   : 4.600 ms
+p95      : 5.505 ms
+p99      : 6.034 ms
+Min      : 4.115 ms
+Max      : 7.458 ms
+Throughput: 212.3 handshakes/sec
+
+=== SunJSSE.classical.noAccp trial 2 ===
+=== Results ===
+Mean     : 4.714 ms
+Median   : 4.651 ms
+p95      : 5.405 ms
+p99      : 6.144 ms
+Min      : 4.135 ms
+Max      : 7.338 ms
+Throughput: 212.2 handshakes/sec
+
+=== SunJSSE.classical.noAccp trial 3 ===
+=== Results ===
+Mean     : 4.692 ms
+Median   : 4.577 ms
+p95      : 5.463 ms
+p99      : 6.260 ms
+Min      : 4.133 ms
+Max      : 8.264 ms
+Throughput: 213.2 handshakes/sec
+
+=== SunJSSE.classical.accp trial 1 ===
+=== Results ===
+Mean     : 1.304 ms
+Median   : 1.230 ms
+p95      : 1.880 ms
+p99      : 2.342 ms
+Min      : 0.908 ms
+Max      : 4.277 ms
+Throughput: 766.7 handshakes/sec
+
+=== SunJSSE.classical.accp trial 2 ===
+=== Results ===
+Mean     : 1.256 ms
+Median   : 1.182 ms
+p95      : 1.787 ms
+p99      : 2.190 ms
+Min      : 0.878 ms
+Max      : 3.480 ms
+Throughput: 795.9 handshakes/sec
+
+=== SunJSSE.classical.accp trial 3 ===
+=== Results ===
+Mean     : 1.238 ms
+Median   : 1.177 ms
+p95      : 1.734 ms
+p99      : 2.099 ms
+Min      : 0.872 ms
+Max      : 3.078 ms
+Throughput: 807.8 handshakes/sec
+
+DONE
